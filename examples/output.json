@@ -1,0 +1,180 @@
+{
+  "metadata": {
+    "timestamp": "2025-11-19T22:38:23.890Z",
+    "totalChunks": 19,
+    "version": "1.0.0"
+  },
+  "chunks": [
+    {
+      "name": "AuthService",
+      "type": "class",
+      "filePath": "/home/runner/work/SemanticCodeIndexer/SemanticCodeIndexer/examples/sample-project/auth.js",
+      "startLine": 2,
+      "endLine": 34,
+      "startColumn": 0,
+      "endColumn": 1
+    },
+    {
+      "name": "<anonymous>",
+      "type": "class",
+      "filePath": "/home/runner/work/SemanticCodeIndexer/SemanticCodeIndexer/examples/sample-project/auth.js",
+      "startLine": 2,
+      "endLine": 2,
+      "startColumn": 0,
+      "endColumn": 5
+    },
+    {
+      "name": "constructor",
+      "type": "constructor",
+      "filePath": "/home/runner/work/SemanticCodeIndexer/SemanticCodeIndexer/examples/sample-project/auth.js",
+      "startLine": 3,
+      "endLine": 6,
+      "startColumn": 2,
+      "endColumn": 3
+    },
+    {
+      "name": "login",
+      "type": "method",
+      "filePath": "/home/runner/work/SemanticCodeIndexer/SemanticCodeIndexer/examples/sample-project/auth.js",
+      "startLine": 8,
+      "endLine": 14,
+      "startColumn": 2,
+      "endColumn": 3
+    },
+    {
+      "name": "register",
+      "type": "method",
+      "filePath": "/home/runner/work/SemanticCodeIndexer/SemanticCodeIndexer/examples/sample-project/auth.js",
+      "startLine": 16,
+      "endLine": 23,
+      "startColumn": 2,
+      "endColumn": 3
+    },
+    {
+      "name": "validatePassword",
+      "type": "method",
+      "filePath": "/home/runner/work/SemanticCodeIndexer/SemanticCodeIndexer/examples/sample-project/auth.js",
+      "startLine": 25,
+      "endLine": 28,
+      "startColumn": 2,
+      "endColumn": 3
+    },
+    {
+      "name": "hashPassword",
+      "type": "method",
+      "filePath": "/home/runner/work/SemanticCodeIndexer/SemanticCodeIndexer/examples/sample-project/auth.js",
+      "startLine": 30,
+      "endLine": 33,
+      "startColumn": 2,
+      "endColumn": 3
+    },
+    {
+      "name": "createAuthService",
+      "type": "arrow_function",
+      "filePath": "/home/runner/work/SemanticCodeIndexer/SemanticCodeIndexer/examples/sample-project/auth.js",
+      "startLine": 36,
+      "endLine": 38,
+      "startColumn": 26,
+      "endColumn": 1
+    },
+    {
+      "name": "validateEmail",
+      "type": "function",
+      "filePath": "/home/runner/work/SemanticCodeIndexer/SemanticCodeIndexer/examples/sample-project/auth.js",
+      "startLine": 40,
+      "endLine": 43,
+      "startColumn": 0,
+      "endColumn": 1
+    },
+    {
+      "name": "<anonymous>",
+      "type": "function",
+      "filePath": "/home/runner/work/SemanticCodeIndexer/SemanticCodeIndexer/examples/sample-project/auth.js",
+      "startLine": 40,
+      "endLine": 40,
+      "startColumn": 0,
+      "endColumn": 8
+    },
+    {
+      "name": "InMemoryRepository",
+      "type": "class",
+      "filePath": "/home/runner/work/SemanticCodeIndexer/SemanticCodeIndexer/examples/sample-project/repository.ts",
+      "startLine": 9,
+      "endLine": 36,
+      "startColumn": 0,
+      "endColumn": 1
+    },
+    {
+      "name": "<anonymous>",
+      "type": "class",
+      "filePath": "/home/runner/work/SemanticCodeIndexer/SemanticCodeIndexer/examples/sample-project/repository.ts",
+      "startLine": 9,
+      "endLine": 9,
+      "startColumn": 0,
+      "endColumn": 5
+    },
+    {
+      "name": "constructor",
+      "type": "constructor",
+      "filePath": "/home/runner/work/SemanticCodeIndexer/SemanticCodeIndexer/examples/sample-project/repository.ts",
+      "startLine": 12,
+      "endLine": 14,
+      "startColumn": 2,
+      "endColumn": 3
+    },
+    {
+      "name": "findById",
+      "type": "method",
+      "filePath": "/home/runner/work/SemanticCodeIndexer/SemanticCodeIndexer/examples/sample-project/repository.ts",
+      "startLine": 16,
+      "endLine": 18,
+      "startColumn": 2,
+      "endColumn": 3
+    },
+    {
+      "name": "findAll",
+      "type": "method",
+      "filePath": "/home/runner/work/SemanticCodeIndexer/SemanticCodeIndexer/examples/sample-project/repository.ts",
+      "startLine": 20,
+      "endLine": 22,
+      "startColumn": 2,
+      "endColumn": 3
+    },
+    {
+      "name": "save",
+      "type": "method",
+      "filePath": "/home/runner/work/SemanticCodeIndexer/SemanticCodeIndexer/examples/sample-project/repository.ts",
+      "startLine": 24,
+      "endLine": 27,
+      "startColumn": 2,
+      "endColumn": 3
+    },
+    {
+      "name": "delete",
+      "type": "method",
+      "filePath": "/home/runner/work/SemanticCodeIndexer/SemanticCodeIndexer/examples/sample-project/repository.ts",
+      "startLine": 29,
+      "endLine": 31,
+      "startColumn": 2,
+      "endColumn": 3
+    },
+    {
+      "name": "clear",
+      "type": "method",
+      "filePath": "/home/runner/work/SemanticCodeIndexer/SemanticCodeIndexer/examples/sample-project/repository.ts",
+      "startLine": 33,
+      "endLine": 35,
+      "startColumn": 2,
+      "endColumn": 3
+    },
+    {
+      "name": "createRepository",
+      "type": "arrow_function",
+      "filePath": "/home/runner/work/SemanticCodeIndexer/SemanticCodeIndexer/examples/sample-project/repository.ts",
+      "startLine": 38,
+      "endLine": 40,
+      "startColumn": 25,
+      "endColumn": 1
+    }
+  ]
+}
