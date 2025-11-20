@@ -6,12 +6,15 @@ A semantic code indexer that parses JavaScript and TypeScript files using ts-mor
 ## Features
 
 - 🔍 Scans directories for `.js`, `.ts`, and `.tsx` files
-- 🌳 Uses ts-morph for accurate TypeScript AST parsing
-- 📦 Extracts semantic chunks: functions, classes, methods, constructors, arrow functions, Playwright Page Object locators/actions, and Playwright test cases
-- 📊 Collects metadata: name, type, file path, line numbers, and column positions
-- 💾 Saves results in structured JSON format
-- 🎯 Supports optional subdirectory targeting and Playwright/Angular project types
-- 🔧 Modular structure ready for future vectorization and custom chunking rules
+- 🌳 Uses **ts-morph** for accurate TypeScript/JavaScript AST parsing
+- 📦 Extracts **14 chunk types**: functions, classes, methods, constructors, arrow functions, tests, locators, actions, asserts, helpers, setup, fixtures, constants, and IIFEs
+- 📊 Collects rich metadata: name, type, **relative file paths**, line numbers, column positions, and relationships
+- 💾 Saves results in structured JSON format with **portable relative paths**
+- 🎯 Supports Playwright and Angular project types with specialized extraction
+- 🎭 **Playwright**: Comprehensive support for Page Object Models, test files, fixtures, and setup patterns
+- 🔗 **Relationship tracking**: Links Page Objects to their test files
+- ⚡ **Two-pass analysis**: Builds complete relationship graphs for Playwright projects
+- 🔧 Modular structure ready for vectorization and custom chunking rules
 
 ## Installation
 
@@ -69,7 +72,7 @@ The tool generates a JSON file with the following structure:
     {
       "name": "functionName",
       "type": "function",
-      "filePath": "/path/to/file.js",
+      "filePath": "src/utils/file.js",
       "startLine": 10,
       "endLine": 15,
       "startColumn": 0,
@@ -80,26 +83,57 @@ The tool generates a JSON file with the following structure:
 }
 ```
 
+**Note:** All file paths are **relative** to the project root for portability across environments.
 
 ### Chunk Types
 
+#### Core Types
 - `function`: Regular function declarations
 - `arrow_function`: Arrow function expressions
 - `class`: Class declarations
 - `method`: Class methods
 - `constructor`: Class constructors
-- `locator`: Playwright Page Object locator
-- `action`: Playwright Page Object action
-- `assert`: Playwright assertion
-- `helper`: Playwright helper function
+
+#### Playwright-Specific Types
+- `test`: Test cases from `test()` or `it()` calls (standalone and in describe blocks)
+- `locator`: Page Object Model locators
+- `action`: Page Object action methods
+- `assert`: Assertion and expectation helpers
+- `helper`: Utility functions and helper methods
+- `setup`: Setup functions from `setup()` or `test.use()` calls
+- `fixture`: Fixture definitions from `test.extend()`
+
+#### Configuration Types
+- `constant`: Exported configuration objects/arrays
+- `iife`: Immediately Invoked Function Expressions
 
 ### Playwright Support
 
-When using `--project-type playwright`, the indexer will:
-- Extract Playwright Page Object Model chunks, including locators and actions, with metadata:
-  - `filepath`, `className`, `functionName`, `chunkType`, `repository`, `module`, `relatedTestCases`, `docstring`, `lines`, `code`
-- Extract Playwright test file chunks (spec.ts), including only test cases (excluding hooks), with metadata:
-  - `filepath`, `testSuiteName`, `testName`, `chunkType`, `repository`, `module`, `docstring`, `lines`, `code`
+When using `--project-type playwright`, the indexer provides comprehensive extraction:
+
+#### Test Files (`.spec.ts`, `.spec.js`, `.api-spec.ts`, `.api-spec.js`)
+- **Test cases**: Extracts both standalone `test()` calls and tests within `test.describe()` blocks
+- **Describe blocks with options**: Handles `test.describe("name", { tag: ["@smoke"] }, callback)` pattern
+- **Setup files**: Extracts `setup()` and `test.use()` configurations from `.setup.ts` files
+- **Metadata includes**: `testSuiteName`, `testName`, `repository`, `module`, `docstring`
+
+#### Page Object Model Files
+- **Locators**: Extracts locator definitions from class properties and constructor
+- **Actions**: Groups related methods as action chunks
+- **Simple properties**: Captures non-locator properties (e.g., `gotoURL`)
+- **Relationships**: Tracks which test files import each Page Object
+- **Metadata includes**: `className`, `functionName`, `relatedTestCases`, `repository`, `module`
+
+#### Edge Case Patterns
+- **Fixture definitions**: Extracts individual fixtures from `test.extend()` calls
+- **Constants**: Captures exported configuration objects and arrays
+- **IIFEs**: Extracts Immediately Invoked Function Expressions from utility scripts
+- **Utility files**: Falls back to generic extraction for files without classes
+
+#### Two-Pass Analysis
+The indexer performs a two-pass analysis:
+1. **First pass**: Analyzes imports to build Page Object ↔ Test relationships
+2. **Second pass**: Extracts chunks with full relationship metadata
 
 ## Programmatic Usage
 
