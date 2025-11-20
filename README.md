@@ -1,16 +1,17 @@
 # SemanticCodeIndexer
 
-A semantic code indexer that parses JavaScript and TypeScript files using Tree-sitter to extract semantic chunks (functions, classes, methods) with metadata.
+
+A semantic code indexer that parses JavaScript and TypeScript files using ts-morph to extract semantic chunks (functions, classes, methods, Playwright Page Objects, and tests) with rich metadata.
 
 ## Features
 
 - 🔍 Scans directories for `.js`, `.ts`, and `.tsx` files
-- 🌳 Uses Tree-sitter for accurate AST parsing
-- 📦 Extracts semantic chunks: functions, classes, methods, constructors, and arrow functions
+- 🌳 Uses ts-morph for accurate TypeScript AST parsing
+- 📦 Extracts semantic chunks: functions, classes, methods, constructors, arrow functions, Playwright Page Object locators/actions, and Playwright test cases
 - 📊 Collects metadata: name, type, file path, line numbers, and column positions
 - 💾 Saves results in structured JSON format
-- 🎯 Supports optional subdirectory targeting
-- 🔧 Modular structure ready for future vectorization
+- 🎯 Supports optional subdirectory targeting and Playwright/Angular project types
+- 🔧 Modular structure ready for future vectorization and custom chunking rules
 
 ## Installation
 
@@ -27,12 +28,14 @@ npm run build
 node dist/cli.js --path <directory> [options]
 ```
 
+
 ### Options
 
 - `--path <path>` (required): Base directory path to scan
 - `--target <subdirectory>` (optional): Subdirectory within base path to scan
 - `--output <file>` (optional): Output JSON file path (default: `semantic-chunks.json`)
 - `--include-code` (optional): Include source code snippets in the output
+- `--project-type <type>` (optional): Project type, either `angular` or `playwright` (default: `angular`)
 
 ### Examples
 
@@ -77,6 +80,7 @@ The tool generates a JSON file with the following structure:
 }
 ```
 
+
 ### Chunk Types
 
 - `function`: Regular function declarations
@@ -84,6 +88,18 @@ The tool generates a JSON file with the following structure:
 - `class`: Class declarations
 - `method`: Class methods
 - `constructor`: Class constructors
+- `locator`: Playwright Page Object locator
+- `action`: Playwright Page Object action
+- `assert`: Playwright assertion
+- `helper`: Playwright helper function
+
+### Playwright Support
+
+When using `--project-type playwright`, the indexer will:
+- Extract Playwright Page Object Model chunks, including locators and actions, with metadata:
+  - `filepath`, `className`, `functionName`, `chunkType`, `repository`, `module`, `relatedTestCases`, `docstring`, `lines`, `code`
+- Extract Playwright test file chunks (spec.ts), including only test cases (excluding hooks), with metadata:
+  - `filepath`, `testSuiteName`, `testName`, `chunkType`, `repository`, `module`, `docstring`, `lines`, `code`
 
 ## Programmatic Usage
 
@@ -119,6 +135,7 @@ SemanticCodeIndexer/
 └── README.md
 ```
 
+
 ## Future Enhancements
 
 The modular architecture is designed to support future enhancements:
@@ -128,6 +145,7 @@ The modular architecture is designed to support future enhancements:
 - 🔌 Plugin system for custom extractors
 - 📈 Code complexity metrics
 - 🔗 Cross-reference analysis
+- 🧪 Advanced Playwright and Angular chunking
 
 ## License
 
