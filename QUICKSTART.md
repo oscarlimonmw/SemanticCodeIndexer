@@ -56,16 +56,15 @@ node dist/cli.js --path ./src --include-code
 
 The output JSON contains:
 - **metadata**: Timestamp, total chunks count, and version
-- **chunks**: Array of semantic chunks with:
-
-  - `name`: Function/class/method name
-  - `type`: One of: function, arrow_function, class, method, constructor, locator, action, assert, helper, test, setup, fixture, constant, iife
-  - `filePath`: **Relative path** from project root to the source file
-  - `startLine`, `endLine`: Line numbers in the source
-  - `startColumn`, `endColumn`: Column positions
-  - `code`: Source code (if --include-code was used)
-  - For Playwright projects, additional metadata:
-    - `className`, `functionName`, `chunkType`, `repository`, `module`, `relatedTestCases`, `docstring`, `lines`, `testSuiteName`, `testName`
+- **chunks**: Array of transformed semantic chunks, each with:
+  - `document`: Text representation of the chunk for embedding/search
+  - `metadata`: Object containing all chunk properties:
+    - `filepath`: **Relative path** from project root to the source file
+    - `chunkType`: One of: function, arrow_function, class, method, constructor, locator, action, assert, helper, test, setup, fixture, constant, iife
+    - `lines`: Object with `start` and `end` line numbers
+    - `code`: Source code (optional, if --include-code was used)
+    - For Playwright projects, additional context:
+      - `className`, `functionName`, `repository`, `module`, `relatedTestCases`, `docstring`, `testSuiteName`, `testName`
 
 ## Example Output Structure
 
@@ -78,13 +77,17 @@ The output JSON contains:
   },
   "chunks": [
     {
-      "name": "myFunction",
-      "type": "function",
-      "filePath": "src/utils/file.js",
-      "startLine": 10,
-      "endLine": 15,
-      "startColumn": 0,
-      "endColumn": 1
+      "document": "src/utils/file.js myFunction function lines: {start: 10 end: 15}",
+      "metadata": {
+        "filepath": "src/utils/file.js",
+        "chunkType": "function",
+        "lines": {
+          "start": 10,
+          "end": 15
+        },
+        "functionName": "myFunction",
+        "code": "function myFunction() { ... }"
+      }
     }
   ]
 }

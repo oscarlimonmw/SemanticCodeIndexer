@@ -70,20 +70,23 @@ The tool generates a JSON file with the following structure:
   },
   "chunks": [
     {
-      "name": "functionName",
-      "type": "function",
-      "filePath": "src/utils/file.js",
-      "startLine": 10,
-      "endLine": 15,
-      "startColumn": 0,
-      "endColumn": 1,
-      "code": "optional source code"
+      "document": "src/utils/file.js functionName function lines: {start: 10 end: 15}",
+      "metadata": {
+        "filepath": "src/utils/file.js",
+        "chunkType": "function",
+        "lines": {
+          "start": 10,
+          "end": 15
+        },
+        "functionName": "functionName",
+        "code": "optional source code"
+      }
     }
   ]
 }
 ```
 
-**Note:** All file paths are **relative** to the project root for portability across environments.
+**Note:** All file paths are **relative** to the project root for portability across environments. Each chunk includes a `document` field (text representation for embedding/search) and a `metadata` object with all chunk properties including nested `lines` and optional `code`.
 
 ### Chunk Types
 

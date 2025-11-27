@@ -310,6 +310,8 @@ export class CodeParser {
   ): SemanticChunk[] {
     const chunks: SemanticChunk[] = [];
     const fileName = path.basename(filePath);
+    const repository = this.extractRepository(filePath);
+    const module = this.extractModule(filePath);
 
     // 1. Extract setup() calls (Playwright setup files)
     const setupCalls = sourceFile.getDescendantsOfKind(SyntaxKind.CallExpression).filter(call => {
@@ -328,6 +330,8 @@ export class CodeParser {
           name: testName,
           type: 'setup',
           filePath,
+          repository,
+          module,
           startLine: setupCall.getStartLineNumber(),
           endLine: setupCall.getEndLineNumber(),
           startColumn: setupCall.getStartLinePos(),
@@ -356,6 +360,8 @@ export class CodeParser {
                 name: propName,
                 type: 'fixture',
                 filePath,
+                repository,
+                module,
                 startLine: prop.getStartLineNumber(),
                 endLine: prop.getEndLineNumber(),
                 startColumn: prop.getStartLinePos(),
@@ -382,6 +388,8 @@ export class CodeParser {
               name: decl.getName(),
               type: 'constant',
               filePath,
+              repository,
+              module,
               startLine: decl.getStartLineNumber(),
               endLine: decl.getEndLineNumber(),
               startColumn: decl.getStartLinePos(),
@@ -415,6 +423,8 @@ export class CodeParser {
           name: `IIFE in ${fileName}`,
           type: 'iife',
           filePath,
+          repository,
+          module,
           startLine: iife.getStartLineNumber(),
           endLine: iife.getEndLineNumber(),
           startColumn: iife.getStartLinePos(),
@@ -439,6 +449,8 @@ export class CodeParser {
     includeCode: boolean
   ): SemanticChunk[] {
     const chunks: SemanticChunk[] = [];
+    const repository = this.extractRepository(filePath);
+    const module = this.extractModule(filePath);
     
     // Functions
     for (const func of sourceFile.getFunctions()) {
@@ -447,6 +459,8 @@ export class CodeParser {
         name: func.getName() || '<anonymous>',
         type: 'function',
         filePath,
+        repository,
+        module,
         startLine: func.getStartLineNumber(),
         endLine: func.getEndLineNumber(),
         startColumn: func.getStartLinePos(),
@@ -464,6 +478,8 @@ export class CodeParser {
         type: 'class',
         filePath,
         className: cls.getName() || '<anonymous>',
+        repository,
+        module,
         startLine: cls.getStartLineNumber(),
         endLine: cls.getEndLineNumber(),
         startColumn: cls.getStartLinePos(),
@@ -481,6 +497,8 @@ export class CodeParser {
           filePath,
           className: cls.getName() || '<anonymous>',
           functionName: method.getName() || '<anonymous>',
+          repository,
+          module,
           startLine: method.getStartLineNumber(),
           endLine: method.getEndLineNumber(),
           startColumn: method.getStartLinePos(),
@@ -499,6 +517,8 @@ export class CodeParser {
           name: variable.getName(),
           type: 'arrow_function',
           filePath,
+          repository,
+          module,
           startLine: variable.getStartLineNumber(),
           endLine: variable.getEndLineNumber(),
           startColumn: variable.getStartLinePos(),
@@ -514,7 +534,11 @@ export class CodeParser {
    * Extract repository name from file path
    */
   private extractRepository(filePath: string): string {
-    // Try to extract from git repository or use a default
+    // Extract repository name from rootDir (the project folder name)
+    if (this.rootDir) {
+      return path.basename(this.rootDir);
+    }
+    // Fallback: try to extract from git repository or use a default
     const parts = filePath.split(path.sep);
     // Look for common repository patterns
     const repoIndex = parts.findIndex(p => p === 'projects' || p === 'repos' || p === 'src');
